@@ -38,3 +38,39 @@
   - 勾选**清空头部**将会清空ass或ssa字幕内[Script Info]的内参数（字幕仍可使用）
   - 在**右上角的下拉栏**内选择对字体的处理方式
   - 点击**提取字幕**提取所有**复选框被勾选**的文件的字幕
+
+---
+
+## 字体处理
+
+- **封装字体**:
+  - 功能：将视频文件中封装的字体文件直接**打包封装进字幕文件**(ass/ssa)中，生成的字幕文件可在没安装字幕所需字体的系统中使用(需要播放器支持)。
+  - 适用场景：
+    1. 导出格式为 ASS 或 SSA
+    2. 原视频中包含内封字体
+    3. 字体中需注释字体名称对应关系，如：
+    ```ass
+    ; Font subset: L0V8T250 - M 盈黑 PRC W9
+    ; Font subset: N1ZXC2NR - 华康翩翩体W5-A
+    ; Font subset: 2YHL3UE1 - 汉仪正圆-75S
+    ; Font subset: XQDHK75S - Arial
+    ; Font subset: DYXAW90Z - 华康海报体W12
+    ; Font subset: GSXJQ180 - 汉仪旗黑 80S
+    ; Font subset: ZVUR2X0K - 内海フォント-Bold
+    ; Font subset: GZNYNI7K - 汉仪正圆-65S
+    ; Font subset: 8A905FBC - 汉仪正圆-55S
+    ; Font subset: QL2VVX8J - 汉仪旗黑 55S
+    ; Font subset: ZGLXT4XU - LINE Seed JP_OTF ExtraBold
+    ; Font subset: QQ3SCN4Z - 851tegakizatsu
+    ```
+  - 实现流程：
+    ```mermaid
+    flowchart TD
+    A[开始：导出字幕] --> B{字幕格式为 ASS/SSA?}
+    B -->|是| C[提取字体 → extract_all_fonts_to_tempdir()]
+    B -->|否| G[跳过封装字体]
+    C --> D[生成字幕文件]
+    D --> E[将字体封装进字幕 → embed_fonts_to_ass()]
+    E --> F[删除临时字体目录]
+    F --> H[输出完成：嵌入字体的 ASS/SSA]
+    ```
