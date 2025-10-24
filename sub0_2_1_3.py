@@ -1643,6 +1643,9 @@ class SubtitleExtractorApp:
             except Exception as e:
                 self.log(f"❌ 字体处理失败: {base_name} 错误: {e}")
 
+        # --- 清空总表格 ---
+        self.font_name_registry.clear()
+        self.log("🧹 已清空 font_name_registry")
         self.log(f"🎨 字体处理完成: {success_count}/{total_count} 个字体组处理成功")
 
     def _create_fontforge_merge_script(self, font_files, output_path):
