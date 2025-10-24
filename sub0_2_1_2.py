@@ -423,13 +423,19 @@ class SubtitleExtractorApp:
             outdir = filedialog.askdirectory(title="选择字幕保存目录")
             if not outdir:  # 用户在选择目录时点了取消
                 return
-            # 检查并创建目录
-            if not os.path.exists(outdir):
-                try:
-                    os.makedirs(outdir, exist_ok=True)
-                except Exception as e:
-                    messagebox.showerror("错误", f"无法创建目录：\n{outdir}\n\n错误信息：{e}")
-                    return
+
+            # 如果目录不存在，则回退到上级存在的目录
+            temp_dir = outdir
+            while not os.path.exists(temp_dir):
+                temp_dir = os.path.dirname(temp_dir)
+            outdir = temp_dir
+
+            # 尝试创建最终目录
+            try:
+                os.makedirs(outdir, exist_ok=True)
+            except Exception as e:
+                messagebox.showerror("错误", f"无法创建目录：\n{outdir}\n\n错误信息：{e}")
+                return
 
         self.save_and_disable_buttons()
         threading.Thread(target=self.extract_subtitles_all, args=(subfmt, selected_files, outdir), daemon=True).start()
@@ -627,6 +633,11 @@ class SubtitleExtractorApp:
                     export_dir = filedialog.askdirectory(title="选择导出字体的目标目录")
                     if export_dir:
                         try:
+                            # 如果目录不存在，则回退到上级存在的目录
+                            temp_dir = export_dir
+                            while not os.path.exists(temp_dir):
+                                temp_dir = os.path.dirname(temp_dir)
+                            export_dir = temp_dir
                             # 🟢 在导出目录中创建 Fonts 文件夹
                             export_fonts_dir = os.path.join(export_dir, "Fonts")
                             os.makedirs(export_fonts_dir, exist_ok=True)
