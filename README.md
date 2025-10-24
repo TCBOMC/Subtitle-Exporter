@@ -190,3 +190,5 @@
     n8@{ shape: diam}
     n22@{ shape: diam}
     ```
+---
+此项目使用AI辅助编程完成
