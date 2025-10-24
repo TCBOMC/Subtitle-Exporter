@@ -6,7 +6,7 @@
 ## 环境准备
 
 - **安装ffmpeg**:
-  - 官网：https://ffmpeg.org/?utm_source=chatgpt.com
+  - 官网：https://ffmpeg.org/
   - 安装到Path(建议)：下载并解压到任意目录后将包含ffmpeg.exe和ffprobe.exe的目录添加到Path
   - 安装到程序目录：下载并解压ffmpeg.exe和ffprobe.exe到本工具exe文件所在目录下的ffmpeg文件夹内(确保ffmpeg.exe和ffprobe.exe位于./ffmpeg/ffmpeg.exe和./ffmpeg/ffprobe.exe)
 - **安装spp2pgs**:
